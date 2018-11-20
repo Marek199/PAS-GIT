@@ -36,7 +36,7 @@
 			
 			if(!empty($user) && !empty($pass))
 				{	
-					$wynik=mysqli_query($polaczenie, "SELECT user FROM Klient WHERE user='$user'");
+					$wynik=mysqli_query($polaczenie, "SELECT user FROM users WHERE user='$user'");
 					$rekord = mysqli_fetch_array($wynik);
 					if($rekord) //Jeśli brak, to nie ma użytkownika o podanym loginie
 					{
@@ -49,9 +49,16 @@
 					else
 					{	if($pass==$pass_again)
 						{
-							mysqli_query($polaczenie, "INSERT INTO Klient (user,pass) values ('$user','$pass')"); 
+							mysqli_query($polaczenie, "INSERT INTO users (user,pass,stan) values ('$user','$pass','0')"); 
 							echo "<br>Utworzono nowego uzytkownika</br>";
 							echo "Rejestracja przebiegla pomyslnie. Mozesz teraz przejsc do <a href='logowanie.php'>Logowania</a>";
+							$katalog = $user;
+							
+							
+								mkdir("./$katalog", 0777);
+								echo "Folder uzytkownika został utworzony";
+							
+							
 							mysqli_close($polaczenie);
 						}else
 						{
