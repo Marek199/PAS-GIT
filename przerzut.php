@@ -1,4 +1,8 @@
 <?php	
+//pobieranie pliku na podstawie
+//folderu w którym się uzytkownik
+//znajduje oraz wybranej nazwy pliku
+//z pliku pobieranie.php
 $sciezka=$_COOKIE['sciezka'];
 $file = $_POST['pobieranie'];
 $droga= "$sciezka/$file";
