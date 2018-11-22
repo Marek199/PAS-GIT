@@ -19,7 +19,7 @@ $czas_obecny = date("y:m:d:H:i:s", time());
 		$dbuser="xxx"; 
 		$dbpassword="xxx";
 		$dbname="xxx";
-		$port = '80';
+		$port = 'xxx';
 		
 
 $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname); // połączenie z BD – wpisać swoje parametry !!!
@@ -37,7 +37,7 @@ else
 if($rekord['stan']==1)
 {
 	
-	
+	//pobieranie czasu zablokowania uzytkownika
 	$rezultat = mysqli_query($polaczenie, "SELECT czas FROM users where user='$user'");
 	if ($wiersz = mysqli_fetch_array ($rezultat)) 	
 			{ 	
@@ -48,9 +48,9 @@ if($rekord['stan']==1)
 		
 			
 			
-			
+				//jezeli czas zablokowania jest o minute wiekszy to odblokuj
 				if($odblokowanie > $ts + 60)
-				{
+				{	//zmiana stanu konta z 1 - zablokowane na 0 - niezablokowane
 					mysqli_query($polaczenie, "UPDATE users SET stan= '0',czas='now()' WHERE user='$user'") or die("Problem z czasem");
 					
 					echo "Konto zostalo odblokowane";
@@ -72,8 +72,9 @@ if($rekord['pass']==$pass) // czy hasło zgadza się z BD
  
 echo "<br> Logowanie Powiodło się </br>"; 
 
-$rezultat5 = mysqli_query($polaczenie, "SELECT * FROM logi ORDER BY idlogi DESC LIMIT 1,1");
-
+$rezultat5 = mysqli_query($polaczenie, "SELECT * from logi Where login = '$user' ORDER BY idlogi DESC LIMIT 1,1");
+//pobiera rekord logowania, jesli poprzednie logowanie bylo niepoprawne podczas poprawnego wyswietli
+//infrmacje o niepoprawnym logowaniu
 while ($wiersz = mysqli_fetch_array ($rezultat5)) 	
 			{ 	
 				 $ostrzezenie = $wiersz[3];
@@ -83,7 +84,7 @@ while ($wiersz = mysqli_fetch_array ($rezultat5))
 				{	
 					
 					
-					$wynik=mysqli_query($polaczenie, "SELECT data from logi ORDER BY idlogi DESC LIMIT 1,1") or die("Problem z czyms");
+					$wynik=mysqli_query($polaczenie, "SELECT data from logi Where login = '$user' and komunikat='1' ORDER BY idlogi DESC LIMIT 1") or die("Problem z czyms");
 					if ($wiersz = mysqli_fetch_array ($wynik)) 	
 					{ 	
 				 
@@ -102,6 +103,9 @@ while ($wiersz = mysqli_fetch_array ($rezultat5))
 }
 else
 {
+	//pobieranie 3 ostatnich rekordów logowań
+	//jesli wykryje 3 nieudane próby konto zostaje zablokowane
+	//zmiana stanu konta z 0 na 1 - zablokowane
 mysqli_query($polaczenie, "INSERT INTO logi (login,data,komunikat) values ('$user','$czas_obecny','1')");
 $rezultat = mysqli_query($polaczenie, "SELECT * FROM logi ORDER BY idlogi DESC LIMIT 0,3");
 
