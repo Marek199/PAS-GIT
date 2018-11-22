@@ -14,7 +14,7 @@
 		$dbuser="xxx"; 
 		$dbpassword="xxx";
 		$dbname="xxx";
-		$port = 'xxx';
+		$port = '80';
 
 		//łączenie z bazą danych
 		$polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname); 
