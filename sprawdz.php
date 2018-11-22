@@ -1,9 +1,3 @@
-<?php 
-//przekirowanie do index
-//header('Location: rejestracja.php');
-?>
-
-
 <head>
 <title>PLUTA</title>
 </head>
@@ -14,7 +8,7 @@
 		$dbuser="xxx"; 
 		$dbpassword="xxx";
 		$dbname="xxx";
-		$port = '80';
+		$port = 'xxx';
 
 		//łączenie z bazą danych
 		$polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname); 
@@ -54,7 +48,7 @@
 							echo "Rejestracja przebiegla pomyslnie. Mozesz teraz przejsc do <a href='logowanie.php'>Logowania</a>";
 							$katalog = $user;
 							
-							
+							//zakładanie katalogu uzytkownika przy udanej rejestracji
 								mkdir("./$katalog", 0777);
 								echo "Folder uzytkownika został utworzony";
 							
