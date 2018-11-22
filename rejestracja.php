@@ -2,9 +2,10 @@
 <HEAD>
 <title>PLUTA</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-Formularz rejestracji klienta
+
 </HEAD>
 <BODY>
+Formularz rejestracji klienta
 <form method="POST" action="sprawdz.php">
 <br>
 Login:<input type="text" name="uzytkownik" maxlength="20" size="10"><br>
