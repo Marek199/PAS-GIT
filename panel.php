@@ -1,3 +1,4 @@
+
 <?php
 if ($_COOKIE['user']=='')
 {
@@ -5,10 +6,12 @@ if ($_COOKIE['user']=='')
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
 <head>
 <title>PLUTA</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 <BODY>
 PANEL Uzytkownika
 <a href="logowanie.php">Wyloguj</a></br>
@@ -19,13 +22,6 @@ Podaj nazwe folderu:
 <input type="text" name="nazwa_folderu" maxlength="20" size="10"><br>
 <input type="submit" value="Utwórz"/>
 </form>
-
-
-
-
-
-
-
 <?php
 $nazwa= $_POST['nazwa_folderu'];
 $przegladarka=$dane['name'];
@@ -38,9 +34,12 @@ $user=$_COOKIE['user'];
 		$dbuser="xxx"; 
 		$dbpassword="xxx";
 		$dbname="xxx";
-		$port = '80';
+		$port = 'xxx';
 		$polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
+		if(!$polaczenie) { echo"Błąd: ". mysqli_connect_errno()." ".mysqli_connect_error(); }
+		mysqli_query($polaczenie, "SET NAMES 'utf8'");
 		
+		//tworzenie katalogu przez uzytkownika w panelu
 		 if ( isset ( $_POST['nazwa_folderu'] ) )
 		{
 			$katalog = $nazwa;
@@ -54,19 +53,14 @@ $user=$_COOKIE['user'];
 			}else
 			{
 				echo "<br>Folder o podanej nazwie juz istnieje</br>";
-			}				
-			
-			
+			}					
 		}
-		
-		
-		
-		
 
-if(!$polaczenie) { echo"Błąd: ". mysqli_connect_errno()." ".mysqli_connect_error(); }
-mysqli_query($polaczenie, "SET NAMES 'utf8'");
+
 $result = mysqli_query($polaczenie, "SELECT nazwa FROM foldery where user='$user'");
 
+//formularz pozwalajacy wybrac katalog do ktorego
+//uzytkownik moze wrzucic pliki
 echo"Wybierz katalog";
 echo"<form action='odbierz.php' method='POST'ENCTYPE='multipart/form-data'>";
 
@@ -79,16 +73,11 @@ while ($wiersz = mysqli_fetch_array ($result))
 				echo $id=$wiersz[0];
 			echo"<option  value='$id'>$id</option>";
 			}
-
-
-//echo"<br>";
-//echo"</select>";
-//echo"<br>";
-
 echo"<input type='file' name='plik'/>";
 echo"<input type='submit' value='Wyślij plik'/>";
 echo"</form>";
-
+//formularz pozwalajacy wejsc/
+//do wybranego przez uzytownika folderu
 echo"<form method='POST' action='pobieranie.php'>";
 echo"<select name='pobieranie'>";
 echo"<option  selected='selected' value=''>Macierzysty</option>";
@@ -98,44 +87,11 @@ while ($wiersz = mysqli_fetch_array ($result))
 				echo $id=$wiersz[0];
 			echo"<option  value='$id'>$id</option>";
 			}
-
 echo"<input type='submit' value='Przejdz do katalogu'/>";
 echo"</form>";
 
-
-
-
-
-
-
-
-?>
-<?php
-echo"<br></br>";
 echo 'Zalogowany jako: '.$_COOKIE['user'];
-echo"<br></br>";
-echo "<br></br>";
-echo "IP:$ip_odwiedzajacego";
-		
-		
-		
-		
-		
-		
-		
-	//	mysqli_query($polaczenie, "INSERT INTO log_klient (nazwa_klienta,IP,przegladarka,datagodz,system) values ('$user','$ip_odwiedzajacego','$przegladarka','$czas_obecny','$system')"); 
-		//mysql_close();
-	//	
-		
-	
-		
-		
-		
-		
-			
-		
-		
-		
+
 ?>
 </BODY>
 </HTML>
