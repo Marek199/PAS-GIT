@@ -19,7 +19,7 @@ $czas_obecny = date("y:m:d:H:i:s", time());
 		$dbuser="xxx"; 
 		$dbpassword="xxx";
 		$dbname="xxx";
-		$port = 'xxx';
+		$port = '80';
 		
 
 $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname); // połączenie z BD – wpisać swoje parametry !!!
@@ -72,6 +72,29 @@ if($rekord['pass']==$pass) // czy hasło zgadza się z BD
  
 echo "<br> Logowanie Powiodło się </br>"; 
 
+$rezultat5 = mysqli_query($polaczenie, "SELECT * FROM logi ORDER BY idlogi DESC LIMIT 1,1");
+
+while ($wiersz = mysqli_fetch_array ($rezultat5)) 	
+			{ 	
+				 $ostrzezenie = $wiersz[3];
+				 $aktywne=$aktywne+$ostrzezenie;
+					
+				if($aktywne==1)
+				{	
+					
+					
+					$wynik=mysqli_query($polaczenie, "SELECT data from logi ORDER BY idlogi DESC LIMIT 1,1") or die("Problem z czyms");
+					if ($wiersz = mysqli_fetch_array ($wynik)) 	
+					{ 	
+				 
+							$alarm = $wiersz[0];
+							
+							echo("<font color=\"#FF0000\">$user: Nieudana próba logowania:$alarm</font>");
+							echo"<br></br>";
+					}
+				}
+			}
+
 ?>
 <a href='panel.php'>Przejdz do panelu Klienta</a></br>
 <?php
@@ -81,6 +104,7 @@ else
 {
 mysqli_query($polaczenie, "INSERT INTO logi (login,data,komunikat) values ('$user','$czas_obecny','1')");
 $rezultat = mysqli_query($polaczenie, "SELECT * FROM logi ORDER BY idlogi DESC LIMIT 0,3");
+
 while ($wiersz = mysqli_fetch_array ($rezultat)) 	
 			{ 	
 				 $liczba = $wiersz[3];
@@ -95,6 +119,12 @@ while ($wiersz = mysqli_fetch_array ($rezultat))
 					exit();
 				}
 			}
+			
+
+			
+			
+			
+			
 
 
 mysqli_close($polaczenie);
