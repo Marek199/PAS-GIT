@@ -1,10 +1,11 @@
+<html>
 <?php
 $dbhost='xxx'; 
 $dbuser="xxx"; 
 $dbpassword="xxx";
 $dbname="xxx";
 $polaczenie = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
-$port = '80';
+$port = 'xxx';
 $file = $_POST['pobieranie'];
 $user=$_COOKIE['user'];
 $sciezka ="/".$user."/".$file;
@@ -12,6 +13,7 @@ $cookie='sciezka';
 $cookie_wartosc=$sciezka;
 setcookie($cookie, $cookie_wartosc, time() + (86400*30), "/");
 $_COOKIE['sciezka'];
+//wypisywanie nazwy katalogu w którym dany uzytkownik sie znajduje
 if($file=='')
 {
 	echo "Katalog Główny ";
@@ -20,7 +22,8 @@ if($file=='')
 	echo "Katalog: ".$file;
 }
 
-
+//formularz wysylajacy dane do przerzut.php
+//tj. informacje o nazwie pliku, który ma zostać pobrany
 echo"<form method='POST' action='przerzut.php'>";
 echo"<select name='pobieranie'>";
 
@@ -34,3 +37,4 @@ while ($wiersz = mysqli_fetch_array ($result))
 echo"<input type='submit' name='nadus' value='Pobierz Wybrany Plik'/>";
 echo"</form>";
 ?>
+</html>
